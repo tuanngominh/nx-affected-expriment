@@ -26,6 +26,9 @@ jobs:
         run: npm ci
         if: steps.npm-cache.outputs.cache-hit != 'true'
 
+      - name: Install firebase tools
+        run: npm install -g firebase-tools
+
       - name: Prepare git branches for nx affected command
         run: |
           echo "Base branch: ${BASE_BRANCH}, current branch: ${HEAD_REF}"
