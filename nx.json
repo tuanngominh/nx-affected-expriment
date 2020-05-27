@@ -25,6 +25,18 @@
     "todo-angular-e2e": {
       "tags": [],
       "implicitDependencies": ["todo-angular"]
+    },
+    "functions-app1": {
+      "tags": []
+    },
+    "functions-feature-1": {
+      "tags": []
+    },
+    "functions-app2": {
+      "tags": []
+    },
+    "functions-feature-2": {
+      "tags": []
     }
   }
 }

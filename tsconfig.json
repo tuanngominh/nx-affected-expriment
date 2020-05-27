@@ -15,7 +15,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@todo/functions/feature-1": ["libs/functions/feature-1/src/index.ts"],
+      "@todo/functions/feature-2": ["libs/functions/feature-2/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

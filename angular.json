@@ -123,6 +123,240 @@
           }
         }
       }
+    },
+    "functions-app1": {
+      "root": "apps/functions/app1",
+      "sourceRoot": "apps/functions/app1/src",
+      "projectType": "application",
+      "prefix": "functions-app1",
+      "schematics": {},
+      "architect": {
+        "pre-deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "OUTPUT_PATH=dist/apps/functions/app1 scripts/deploy/functions-pre-deploy.sh"
+              }
+            ]
+          }
+        },
+        "firebase-deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "firebase deploy --only functions:feature1 --force --project=tuanngo-me"
+              }
+            ],
+            "cwd": "dist/apps/functions/app1",
+            "parallel": false
+          }
+        },
+        "deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "nx run functions-app1:pre-deploy"
+              },
+              {
+                "command": "nx run functions-app1:firebase-deploy"
+              }
+            ],
+            "parallel": false
+          }
+        },
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/functions/app1",
+            "main": "apps/functions/app1/src/main.ts",
+            "tsConfig": "apps/functions/app1/tsconfig.app.json",
+            "assets": ["apps/functions/app1/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/functions/app1/src/environments/environment.ts",
+                  "with": "apps/functions/app1/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "functions-app1:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/functions/app1/tsconfig.app.json",
+              "apps/functions/app1/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/functions/app1/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/functions/app1/jest.config.js",
+            "tsConfig": "apps/functions/app1/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "functions-feature-1": {
+      "root": "libs/functions/feature-1",
+      "sourceRoot": "libs/functions/feature-1/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/functions/feature-1/tsconfig.lib.json",
+              "libs/functions/feature-1/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/functions/feature-1/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/functions/feature-1/jest.config.js",
+            "tsConfig": "libs/functions/feature-1/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "functions-app2": {
+      "root": "apps/functions/app2",
+      "sourceRoot": "apps/functions/app2/src",
+      "projectType": "application",
+      "prefix": "functions-app2",
+      "schematics": {},
+      "architect": {
+        "pre-deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "OUTPUT_PATH=dist/apps/functions/app2 scripts/deploy/functions-pre-deploy.sh"
+              }
+            ]
+          }
+        },
+        "firebase-deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "firebase deploy --only functions:feature2 --force --project=tuanngo-me"
+              }
+            ],
+            "cwd": "dist/apps/functions/app2",
+            "parallel": false
+          }
+        },
+        "deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "nx run functions-app2:pre-deploy"
+              },
+              {
+                "command": "nx run functions-app2:firebase-deploy"
+              }
+            ],
+            "parallel": false
+          }
+        },
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/functions/app2",
+            "main": "apps/functions/app2/src/main.ts",
+            "tsConfig": "apps/functions/app2/tsconfig.app.json",
+            "assets": ["apps/functions/app2/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/functions/app2/src/environments/environment.ts",
+                  "with": "apps/functions/app2/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "functions-app2:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/functions/app2/tsconfig.app.json",
+              "apps/functions/app2/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/functions/app2/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/functions/app2/jest.config.js",
+            "tsConfig": "apps/functions/app2/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "functions-feature-2": {
+      "root": "libs/functions/feature-2",
+      "sourceRoot": "libs/functions/feature-2/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/functions/feature-2/tsconfig.lib.json",
+              "libs/functions/feature-2/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/functions/feature-2/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/functions/feature-2/jest.config.js",
+            "tsConfig": "libs/functions/feature-2/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {
