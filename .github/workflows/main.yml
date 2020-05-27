@@ -53,6 +53,6 @@ jobs:
           BASE_BRANCH: ${{github.base_ref}}
 
       - name: Deploy
-          run: npx nx affected --target=deploy --base=${BASE_BRANCH}
-          env:
-            BASE_BRANCH: ${{github.base_ref}}
+        run: npx nx affected --target=deploy --base=${BASE_BRANCH}
+        env:
+          BASE_BRANCH: ${{github.base_ref}}
