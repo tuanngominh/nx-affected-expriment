@@ -44,10 +44,10 @@ jobs:
       - name: Prepare git branches for nx affected command
         run: |
           echo "Previous tag: ${PREVIOUS_TAG}, current tag: ${CURRENT_TAG}"
-#          git fetch origin ${PREVIOUS_TAG}
-#          git fetch origin ${CURRENT_TAG}
-#          git checkout ${PREVIOUS_TAG}
-#          git checkout ${CURRENT_TAG}
+          git fetch origin ${PREVIOUS_TAG}
+          git fetch origin ${CURRENT_TAG}
+          git checkout ${PREVIOUS_TAG}
+          git checkout ${CURRENT_TAG}
         env:
           PREVIOUS_TAG: ${{steps.previoustag.outputs.value}}
           CURRENT_TAG: ${{steps.currenttag.outputs.value}}
