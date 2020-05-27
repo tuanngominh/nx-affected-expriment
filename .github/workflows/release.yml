@@ -73,12 +73,13 @@ jobs:
           CURRENT_TAG: ${{steps.currenttag.outputs.value}}
 
       - name: Build
-        run: npx nx affected --target=build --base=${PREVIOUS_TAG}
+        run: npx nx affected --target=build --base=${PREVIOUS_TAG} --head=${CURRENT_TAG}
         env:
           PREVIOUS_TAG: ${{steps.previoustag.outputs.value}}
+          CURRENT_TAG: ${{steps.currenttag.outputs.value}}
 
       - name: Deploy
-        run: npx nx affected --target=deploy --base=${PREVIOUS_TAG}
+        run: npx nx affected --target=deploy --base=${PREVIOUS_TAG} --head=${CURRENT_TAG}
         env:
           PREVIOUS_TAG: ${{steps.previoustag.outputs.value}}
-
+          CURRENT_TAG: ${{steps.currenttag.outputs.value}}
