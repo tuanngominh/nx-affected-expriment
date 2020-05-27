@@ -31,9 +31,15 @@ jobs:
 #      - name: Install firebase tools
 #        run: npm install -g firebase-tools
 
+      - name: 'Get previous tag prepare'
+        id: previoustag-prepare
+        run: echo ::set-output name=value::$(git for-each-ref --format="%(refname:strip=2)" --sort=taggerdate --count=2 refs/tags)
+
       - name: 'Get previous tag'
         id: previoustag
-        run: echo ::set-output name=value::$(git for-each-ref --format="%(refname:strip=2)" --sort=taggerdate --count=1 refs/tags)
+        run: echo ::set-output name=value::$(echo ${PREVIOUS_TAG_PREPARE} | sed  -n 2p)
+        env:
+          PREVIOUS_TAG_PREPARE: ${{steps.previoustag-prepare.outputs.value}}
 
 #      - name: 'Get previous tag 2'
 #        shell: bash
