@@ -31,11 +31,15 @@ jobs:
       - name: Install firebase tools
         run: npm install -g firebase-tools
 
-      - name: 'Get Previous tag'
+      - name: 'Get previous tag'
         id: previoustag
         uses: "WyriHaximus/github-action-get-previous-tag@master"
         env:
           GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
+
+      - name: 'Get current tag'
+        id: currenttag
+        run: echo '::set-env name=CURRENT_TAG::${GITHUB_REF##*/}'
 
       - name: Prepare git branches for nx affected command
         run: |
@@ -46,7 +50,6 @@ jobs:
           git checkout ${CURRENT_TAG}
         env:
           PREVIOUS_TAG: ${{steps.previoustag.outputs.tag}}
-          CURRENT_TAG: ${{github.ref##*/}}
 
       #      - name: Format Check
       #        run: npx nx format:check --base=${BASE_BRANCH}
