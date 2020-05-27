@@ -42,7 +42,7 @@ jobs:
       - name: 'Get previous tag'
         id: previoustag
         run: |
-          git fetch --tags
+          git fetch origin refs/tags/v1.18:refs/tags/v1.18
           git tag
           echo ::set-output name=value::$(git describe --abbrev=0 ${CURRENT_TAG}^)
         env:
