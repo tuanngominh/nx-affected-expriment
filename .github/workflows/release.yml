@@ -28,16 +28,16 @@ jobs:
         run: npm ci
         if: steps.npm-cache.outputs.cache-hit != 'true'
 
-      - name: Install firebase tools
-        run: npm install -g firebase-tools
+#      - name: Install firebase tools
+#        run: npm install -g firebase-tools
 
       - name: 'Get previous tag'
         id: previoustag
-        run: echo '::set-env name=PREVIOUS_TAG::$(git for-each-ref --format="%(refname:strip=2)" --sort=-taggerdate --count=2 refs/tags | sed -n 2p)'
+        run: echo ::set-output name=value::$(git for-each-ref --format="%(refname:strip=2)" --sort=-taggerdate --count=2 refs/tags | sed -n 2p)
 
       - name: 'Get current tag'
         id: currenttag
-        run: echo '::set-env name=CURRENT_TAG::${GITHUB_REF##*/}'
+        run: echo ::set-output name=value::${GITHUB_REF##*/}
 
       - name: Prepare git branches for nx affected command
         run: |
@@ -46,6 +46,9 @@ jobs:
           git fetch origin ${CURRENT_TAG}
           git checkout ${PREVIOUS_TAG}
           git checkout ${CURRENT_TAG}
+        env:
+          PREVIOUS_TAG: ${{steps.previoustag.outputs.value}}
+          CURRENT_TAG: ${{steps.currenttag.outputs.value}}
 
       #      - name: Format Check
       #        run: npx nx format:check --base=${BASE_BRANCH}
