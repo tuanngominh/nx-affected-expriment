@@ -75,5 +75,5 @@ jobs:
         run: echo "$REF"
 #        run: npx nx affected --target=deploy --base=${BASE_BRANCH}
         env:
-          REF: ${{github.ref##*/}}
+          REF: ${{github.ref}}
 
