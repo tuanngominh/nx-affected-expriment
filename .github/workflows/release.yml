@@ -42,7 +42,7 @@ jobs:
       - name: 'Get previous tag'
         id: previoustag
         run: |
-          git fetch --tags
+          git fetch --tags -f
           echo ::set-output name=value::$(git for-each-ref --format='%(refname:strip=2)' --sort=-taggerdate --count=2 refs/tags | sed -n 2p)
 
 #      - name: 'Get previous tag'
