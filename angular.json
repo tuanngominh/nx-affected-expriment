@@ -1,0 +1,142 @@
+{
+  "version": 1,
+  "projects": {
+    "todo-angular": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/todo-angular",
+      "sourceRoot": "apps/todo-angular/src",
+      "prefix": "todo",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/todo-angular",
+            "index": "apps/todo-angular/src/index.html",
+            "main": "apps/todo-angular/src/main.ts",
+            "polyfills": "apps/todo-angular/src/polyfills.ts",
+            "tsConfig": "apps/todo-angular/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/todo-angular/src/favicon.ico",
+              "apps/todo-angular/src/assets"
+            ],
+            "styles": ["apps/todo-angular/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/todo-angular/src/environments/environment.ts",
+                  "with": "apps/todo-angular/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "todo-angular:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "todo-angular:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "todo-angular:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/todo-angular/tsconfig.app.json",
+              "apps/todo-angular/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/todo-angular/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/todo-angular/jest.config.js",
+            "tsConfig": "apps/todo-angular/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/todo-angular/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "todo-angular-e2e": {
+      "root": "apps/todo-angular-e2e",
+      "sourceRoot": "apps/todo-angular-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/todo-angular-e2e/cypress.json",
+            "tsConfig": "apps/todo-angular-e2e/tsconfig.e2e.json",
+            "devServerTarget": "todo-angular:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "todo-angular:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/todo-angular-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/todo-angular-e2e/**"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular",
+    "analytics": false
+  },
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "todo-angular"
+}
