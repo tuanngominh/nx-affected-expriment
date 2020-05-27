@@ -43,18 +43,18 @@ jobs:
           git fetch --tags -f
           echo ::set-output name=value::$(git for-each-ref --format='%(refname:strip=2)' --sort=-taggerdate --count=2 refs/tags | sed -n 2p)
 
-      - name: Prepare git branches for nx affected command
-        run: |
-          echo "Previous tag: ${PREVIOUS_TAG}, current tag: ${CURRENT_TAG}"
-          git fetch origin master
-          git fetch origin ${PREVIOUS_TAG}
-          git fetch origin ${CURRENT_TAG}
-          git checkout master
-          git checkout ${PREVIOUS_TAG}
-          git checkout ${CURRENT_TAG}
-        env:
-          PREVIOUS_TAG: ${{steps.previoustag.outputs.value}}
-          CURRENT_TAG: ${{steps.currenttag.outputs.value}}
+#      - name: Prepare git branches for nx affected command
+#        run: |
+#          echo "Previous tag: ${PREVIOUS_TAG}, current tag: ${CURRENT_TAG}"
+#          git fetch origin master
+#          git fetch origin ${PREVIOUS_TAG}
+#          git fetch origin ${CURRENT_TAG}
+#          git checkout master
+#          git checkout ${PREVIOUS_TAG}
+#          git checkout ${CURRENT_TAG}
+#        env:
+#          PREVIOUS_TAG: ${{steps.previoustag.outputs.value}}
+#          CURRENT_TAG: ${{steps.currenttag.outputs.value}}
 
       #      - name: Format Check
       #        run: npx nx format:check --base=${BASE_BRANCH}
