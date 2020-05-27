@@ -35,19 +35,25 @@ jobs:
         id: previoustag
         run: echo ::set-output name=value::$(git for-each-ref --format="%(refname:strip=2)" --sort=-taggerdate --count=2 refs/tags | sed -n 2p)
 
+      - name: 'Get previous tag 2'
+        shell: bash
+        id: previoustag2
+        run: echo ::set-output name=value::$(git for-each-ref --format="%(refname:strip=2)" --sort=-taggerdate --count=2 refs/tags | sed -n 2p)
+
       - name: 'Get current tag'
         id: currenttag
         run: echo ::set-output name=value::${GITHUB_REF##*/}
 
       - name: Prepare git branches for nx affected command
         run: |
-          echo "Previous tag: ${PREVIOUS_TAG}, current tag: ${CURRENT_TAG}"
+          echo "Previous tag: ${PREVIOUS_TAG}, Previous tag 2: ${PREVIOUS_TAG2}, current tag: ${CURRENT_TAG}"
           git fetch origin ${PREVIOUS_TAG}
           git fetch origin ${CURRENT_TAG}
           git checkout ${PREVIOUS_TAG}
           git checkout ${CURRENT_TAG}
         env:
           PREVIOUS_TAG: ${{steps.previoustag.outputs.value}}
+          PREVIOUS_TAG2: ${{steps.previoustag2.outputs.value}}
           CURRENT_TAG: ${{steps.currenttag.outputs.value}}
 
       #      - name: Format Check
