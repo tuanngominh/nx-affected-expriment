@@ -4,9 +4,11 @@ on:
   pull_request:
 
 jobs:
-  build:
+  build_test:
     name: Build & Test
     runs-on: ubuntu-latest
+    env:
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
     steps:
       - name: Checkout
@@ -26,6 +28,9 @@ jobs:
         run: npm ci
         if: steps.npm-cache.outputs.cache-hit != 'true'
 
+      - name: Install firebase tools
+        run: npm install -g firebase-tools
+
       - name: Prepare git branches for nx affected command
         run: |
           echo "Base branch: ${BASE_BRANCH}, current branch: ${HEAD_REF}"
@@ -37,20 +42,17 @@ jobs:
           BASE_BRANCH: ${{github.base_ref}}
           HEAD_REF: ${{github.head_ref}}
 
-      - name: Format Check
-        run: npx nx format:check --base=${BASE_BRANCH}
-        env:
-          BASE_BRANCH: ${{github.base_ref}}
-
-      - name: Lint
-        run: npx nx affected:lint --base=${BASE_BRANCH}
-        env:
-          BASE_BRANCH: ${{github.base_ref}}
+#      - name: Format Check
+#        run: npx nx format:check --base=${BASE_BRANCH}
+#        env:
+#          BASE_BRANCH: ${{github.base_ref}}
+#
+#      - name: Lint
+#        run: npx nx affected:lint --base=${BASE_BRANCH}
+#        env:
+#          BASE_BRANCH: ${{github.base_ref}}
 
       - name: Test
         run: npx nx affected --target=test --base=${BASE_BRANCH}
         env:
           BASE_BRANCH: ${{github.base_ref}}
-
-
-

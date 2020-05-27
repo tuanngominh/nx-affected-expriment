@@ -1,3 +1,6 @@
+# Note
+Generate FIREBASE_TOKEN with `firebase login` and save in github secrets
+
 # Todo
 
 This project was generated using [Nx](https://nx.dev).
