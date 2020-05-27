@@ -37,15 +37,15 @@ jobs:
           BASE_BRANCH: ${{github.base_ref}}
           HEAD_REF: ${{github.head_ref}}
 
-      - name: Format Check
-        run: npx nx format:check --base=${BASE_BRANCH}
-        env:
-          BASE_BRANCH: ${{github.base_ref}}
-
-      - name: Lint
-        run: npx nx affected:lint --base=${BASE_BRANCH}
-        env:
-          BASE_BRANCH: ${{github.base_ref}}
+#      - name: Format Check
+#        run: npx nx format:check --base=${BASE_BRANCH}
+#        env:
+#          BASE_BRANCH: ${{github.base_ref}}
+#
+#      - name: Lint
+#        run: npx nx affected:lint --base=${BASE_BRANCH}
+#        env:
+#          BASE_BRANCH: ${{github.base_ref}}
 
       - name: Test
         run: npx nx affected --target=test --base=${BASE_BRANCH}
