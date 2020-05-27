@@ -24,16 +24,12 @@ jobs:
         with:
           node-version: '10.16.0'
 
-#      - name: Install dependencies
-#        run: npm ci
-#        if: steps.npm-cache.outputs.cache-hit != 'true'
+      - name: Install dependencies
+        run: npm ci
+        if: steps.npm-cache.outputs.cache-hit != 'true'
 
-#      - name: Install firebase tools
-#        run: npm install -g firebase-tools
-
-#      - name: 'Get previous tag prepare'
-#        id: previoustag-prepare
-#        run: echo ::set-output name=value::$(git for-each-ref --format="%(refname:strip=2)" --sort=taggerdate --count=2 refs/tags)
+      - name: Install firebase tools
+        run: npm install -g firebase-tools
 
       - name: 'Get current tag'
         id: currenttag
@@ -45,21 +41,6 @@ jobs:
           git fetch --tags -f
           echo ::set-output name=value::$(git for-each-ref --format='%(refname:strip=2)' --sort=-taggerdate --count=2 refs/tags | sed -n 2p)
 
-#      - name: 'Get previous tag'
-#        id: previoustag
-#        run: |
-#          git fetch origin refs/tags/v1.18:refs/tags/v1.18
-#          git tag
-#          echo ::set-output name=value::$(git describe --abbrev=0 ${CURRENT_TAG}^)
-#        env:
-#          CURRENT_TAG: ${{steps.currenttag.outputs.value}}
-
-#      - name: 'Get previous tag 2'
-#        shell: bash
-#        id: previoustag2
-#        run: echo "::set-output name=value::$(git for-each-ref --format=\"%(refname:strip=2)\" --sort=-taggerdate --count=2 refs/tags | sed -n 2p)"
-
-
       - name: Prepare git branches for nx affected command
         run: |
           echo "Previous tag: ${PREVIOUS_TAG}, current tag: ${CURRENT_TAG}"
@@ -69,7 +50,6 @@ jobs:
 #          git checkout ${CURRENT_TAG}
         env:
           PREVIOUS_TAG: ${{steps.previoustag.outputs.value}}
-#          PREVIOUS_TAG2: ${{steps.previoustag2.outputs.value}}
           CURRENT_TAG: ${{steps.currenttag.outputs.value}}
 
       #      - name: Format Check
@@ -82,19 +62,18 @@ jobs:
       #        env:
       #          BASE_BRANCH: ${{github.base_ref}}
 
-#      - name: Test
-#        run: npx nx affected --target=test --base=${BASE_BRANCH}
-#        env:
-#          BASE_BRANCH: ${{github.base_ref}}
-#
-#      - name: Build
-#        run: npx nx affected --target=build --base=${BASE_BRANCH}
-#        env:
-#          BASE_BRANCH: ${{github.base_ref}}
+      - name: Test
+        run: npx nx affected --target=test --base=${PREVIOUS_TAG}
+        env:
+          PREVIOUS_TAG: ${{steps.previoustag.outputs.value}}
+
+      - name: Build
+        run: npx nx affected --target=build --base=${PREVIOUS_TAG}
+        env:
+          PREVIOUS_TAG: ${{steps.previoustag.outputs.value}}
 
       - name: Deploy
-        run: echo "$REF"
-#        run: npx nx affected --target=deploy --base=${BASE_BRANCH}
+        run: npx nx affected --target=deploy --base=${PREVIOUS_TAG}
         env:
-          REF: ${{github.ref}}
+          PREVIOUS_TAG: ${{steps.previoustag.outputs.value}}
 
