@@ -33,7 +33,7 @@ jobs:
 
       - name: 'Get previous tag'
         id: previoustag
-        run: echo ':set-env name=PREVIOUS_TAG::$(git for-each-ref --format="%(refname:strip=2)" --sort=-taggerdate --count=2 refs/tags | sed -n 2p)'
+        run: echo '::set-env name=PREVIOUS_TAG::$(git for-each-ref --format="%(refname:strip=2)" --sort=-taggerdate --count=2 refs/tags | sed -n 2p)'
 
       - name: 'Get current tag'
         id: currenttag
